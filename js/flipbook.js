@@ -7,25 +7,28 @@ export async function loadFlipbook(folder) {
   const container = document.getElementById('flipbookContainer');
   container.innerHTML = '';
 
-  let page = 1;
+  let pageNumber = 1;
+
   while (true) {
+    const padded = String(pageNumber).padStart(2, '0');
+    const filePath = `${folder}/${padded} ${folder.split('/').pop()} Gulberg Flash.pdf`;
+
     try {
-      const pdf = await pdfjsLib.getDocument(`${folder}/page${page}.pdf`).promise;
+      const pdf = await pdfjsLib.getDocument(filePath).promise;
       const pdfPage = await pdf.getPage(1);
 
       const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      const viewport = pdfPage.getViewport({ scale: 1.4 });
+      const ctx = canvas.getContext('2d');
+      const viewport = pdfPage.getViewport({ scale: 1.5 });
 
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
-      await pdfPage.render({ canvasContext: context, viewport }).promise;
+      await pdfPage.render({ canvasContext: ctx, viewport }).promise;
       container.appendChild(canvas);
 
-      page++;
-    } catch {
-      break;
+      pageNumber++;
+    } catch (err) {
+      break; // no more pages
     }
   }
-}
