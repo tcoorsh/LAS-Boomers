@@ -3,6 +3,8 @@ import pdfjsLib from './pdf.min.mjs';
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
 
+console.log('PDF.js version:', pdfjsLib.version);
+
 export async function loadFlipbook(folder) {
   const container = document.getElementById('flipbookContainer');
   container.innerHTML = '';
