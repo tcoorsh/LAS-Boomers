@@ -1,5 +1,11 @@
 // pdfjsLib is now GLOBAL (window.pdfjsLib)
 
+const pdfjsLib = window.pdfjsLib;
+
+if (!pdfjsLib) {
+  throw new Error('PDF.js failed to load');
+}
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
@@ -29,7 +35,7 @@ export async function loadFlipbook(folder) {
 
       pageNumber++;
     } catch {
-      break; // no more pages
+      break;
     }
   }
 }
