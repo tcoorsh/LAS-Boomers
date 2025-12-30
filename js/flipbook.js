@@ -32,3 +32,4 @@ export async function loadFlipbook(folder) {
       break; // no more pages
     }
   }
+}
