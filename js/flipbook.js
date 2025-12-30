@@ -1,9 +1,13 @@
-import pdfjsLib from './pdf.min.mjs';
+import {
+  getDocument,
+  GlobalWorkerOptions,
+  version
+} from './pdf.min.mjs';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
+GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
 
-console.log('PDF.js version:', pdfjsLib.version);
+console.log('PDF.js version:', version);
 
 export async function loadFlipbook(folder) {
   const container = document.getElementById('flipbookContainer');
@@ -16,7 +20,7 @@ export async function loadFlipbook(folder) {
     const filePath = `${folder}/${padded} Gulberg Flash.pdf`;
 
     try {
-      const pdf = await pdfjsLib.getDocument(filePath).promise;
+      const pdf = await getDocument(filePath).promise;
       const pdfPage = await pdf.getPage(1);
 
       const canvas = document.createElement('canvas');
