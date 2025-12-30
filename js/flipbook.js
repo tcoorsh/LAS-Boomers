@@ -21,21 +21,20 @@ export async function loadFlipbook(folder) {
 
     try {
       const pdf = await getDocument(filePath).promise;
-      const pdfPage = await pdf.getPage(1);
+      const page = await pdf.getPage(1);
 
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const viewport = pdfPage.getViewport({ scale: 1.5 });
+      const viewport = page.getViewport({ scale: 1.5 });
 
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
-      await pdfPage.render({ canvasContext: ctx, viewport }).promise;
+      await page.render({ canvasContext: ctx, viewport }).promise;
       container.appendChild(canvas);
 
       pageNumber++;
-    } catch (err) {
-      console.warn('Stopping at page', pageNumber);
+    } catch {
       break;
     }
   }
