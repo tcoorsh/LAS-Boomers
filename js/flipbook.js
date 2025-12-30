@@ -1,7 +1,9 @@
 import * as pdfjsLib from './pdf.min.mjs';
+import pdfWorker from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+pdfjsLib.GlobalWorkerOptions = {
+  workerPort: pdfWorker
+};
 
 export async function loadFlipbook(folder) {
   const container = document.getElementById('flipbookContainer');
@@ -28,8 +30,9 @@ export async function loadFlipbook(folder) {
       container.appendChild(canvas);
 
       pageNumber++;
-    } catch {
-      break; // no more pages
+    } catch (err) {
+      console.warn('Stopping at page', pageNumber, err);
+      break;
     }
   }
 }
