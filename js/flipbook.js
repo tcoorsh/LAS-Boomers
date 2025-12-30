@@ -1,9 +1,7 @@
-import * as pdfjsLib from './pdf.min.mjs';
+// pdfjsLib is now GLOBAL (window.pdfjsLib)
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
-
-console.log('PDF.js version:', pdfjsLib.version);
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
 export async function loadFlipbook(folder) {
   const container = document.getElementById('flipbookContainer');
@@ -31,7 +29,7 @@ export async function loadFlipbook(folder) {
 
       pageNumber++;
     } catch {
-      break; // no more PDFs
+      break; // no more pages
     }
   }
 }
