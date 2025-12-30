@@ -11,7 +11,7 @@ export async function loadFlipbook(folder) {
 
   while (true) {
     const padded = String(pageNumber).padStart(2, '0');
-    const filePath = `${folder}/${padded} ${folder.split('/').pop()} Gulberg Flash.pdf`;
+    const filePath = `${folder}/${padded} Gulberg Flash.pdf`;
 
     try {
       const pdf = await pdfjsLib.getDocument(filePath).promise;
@@ -28,7 +28,7 @@ export async function loadFlipbook(folder) {
       container.appendChild(canvas);
 
       pageNumber++;
-    } catch (err) {
+    } catch {
       break; // no more pages
     }
   }
