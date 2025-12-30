@@ -1,9 +1,11 @@
 #flipbookContainer {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   padding: 20px;
 }
 
 canvas {
+  margin: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
