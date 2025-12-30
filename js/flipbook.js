@@ -1,5 +1,3 @@
-// pdfjsLib is now GLOBAL (window.pdfjsLib)
-
 const pdfjsLib = window.pdfjsLib;
 
 if (!pdfjsLib) {
