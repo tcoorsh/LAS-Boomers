@@ -1,5 +1,31 @@
 const pdfjsLib = window.pdfjsLib;
 
+console.log('Loading folder:', folder);
+
+for (const file of pdfFiles) {
+    const filePath = `${folder}/${file}`;
+    console.log('Attempting to load PDF:', filePath);
+
+    try {
+        const pdf = await pdfjsLib.getDocument(filePath).promise;
+        const page = await pdf.getPage(1);
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.5 });
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        container.appendChild(canvas);
+
+        console.log('Rendered PDF:', file);
+    } catch (err) {
+        console.error('Failed to load PDF:', filePath, err);
+    }
+}
+
 if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
