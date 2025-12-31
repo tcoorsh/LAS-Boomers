@@ -1,39 +1,16 @@
+// flipbook.js
 const pdfjsLib = window.pdfjsLib;
-
-console.log('Loading folder:', folder);
-
-for (const file of pdfFiles) {
-    const filePath = `${folder}/${file}`;
-    console.log('Attempting to load PDF:', filePath);
-
-    try {
-        const pdf = await pdfjsLib.getDocument(filePath).promise;
-        const page = await pdf.getPage(1);
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const viewport = page.getViewport({ scale: 1.5 });
-
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-
-        await page.render({ canvasContext: ctx, viewport }).promise;
-        container.appendChild(canvas);
-
-        console.log('Rendered PDF:', file);
-    } catch (err) {
-        console.error('Failed to load PDF:', filePath, err);
-    }
-}
 
 if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
-// Set PDF worker path
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.worker.min.js';
+// Worker path (relative to index.html)
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.worker.min.mjs';
 
 export async function loadFlipbook(folder) {
+  console.log('Loading edition folder:', folder);
+
   const container = document.getElementById('flipbookContainer');
   container.innerHTML = '';
 
@@ -42,6 +19,8 @@ export async function loadFlipbook(folder) {
   while (true) {
     const padded = String(pageNumber).padStart(2, '0');
     const filePath = `${folder}/${padded} Gulberg Flash.pdf`;
+
+    console.log('Trying:', filePath);
 
     try {
       const pdf = await pdfjsLib.getDocument(filePath).promise;
@@ -57,9 +36,11 @@ export async function loadFlipbook(folder) {
       await page.render({ canvasContext: ctx, viewport }).promise;
       container.appendChild(canvas);
 
+      console.log('Rendered:', filePath);
       pageNumber++;
-    } catch {
-      break; // stop when no more PDFs
+    } catch (err) {
+      console.log('No more pages at:', filePath);
+      break;
     }
   }
 }
