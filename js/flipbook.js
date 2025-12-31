@@ -5,11 +5,10 @@ if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
-// Use CDN worker
+// CDN worker
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
-// Listen to edition select
 document.getElementById('editionSelect').addEventListener('change', function() {
   const edition = this.value;
   if (edition) {
