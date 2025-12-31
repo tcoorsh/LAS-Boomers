@@ -4,8 +4,13 @@ if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
+import * as pdfjsLib from './pdf.min.mjs';
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
+  new URL('./pdf.worker.min.mjs', import.meta.url).toString();
+
+//pdfjsLib.GlobalWorkerOptions.workerSrc =
+//  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
 export async function loadFlipbook(folder) {
   console.log('Loading edition folder:', folder);
