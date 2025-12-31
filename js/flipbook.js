@@ -1,9 +1,7 @@
-// ✅ IMPORT FIRST — NO window.pdfjsLib
 import * as pdfjsLib from './pdf.min.mjs';
 
-// ✅ Correct worker setup for GitHub Pages
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  new URL('./pdf.worker.min.mjs', import.meta.url).toString();
+// Set the worker from your repo
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('./pdf.worker.min.mjs', import.meta.url).toString();
 
 export async function loadFlipbook(folder) {
   console.log('Loading edition folder:', folder);
@@ -35,7 +33,7 @@ export async function loadFlipbook(folder) {
 
       console.log('Rendered:', filePath);
       pageNumber++;
-    } catch (err) {
+    } catch {
       console.log('No more pages at:', filePath);
       break;
     }
