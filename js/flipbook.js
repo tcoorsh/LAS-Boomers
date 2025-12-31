@@ -1,16 +1,9 @@
-const pdfjsLib = window.pdfjsLib;
-
-if (!pdfjsLib) {
-  throw new Error('PDF.js failed to load');
-}
-
+// ✅ IMPORT FIRST — NO window.pdfjsLib
 import * as pdfjsLib from './pdf.min.mjs';
 
+// ✅ Correct worker setup for GitHub Pages
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   new URL('./pdf.worker.min.mjs', import.meta.url).toString();
-
-//pdfjsLib.GlobalWorkerOptions.workerSrc =
-//  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
 export async function loadFlipbook(folder) {
   console.log('Loading edition folder:', folder);
@@ -42,7 +35,7 @@ export async function loadFlipbook(folder) {
 
       console.log('Rendered:', filePath);
       pageNumber++;
-    } catch {
+    } catch (err) {
       console.log('No more pages at:', filePath);
       break;
     }
