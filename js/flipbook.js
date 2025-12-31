@@ -4,16 +4,7 @@ if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
-// ✅ USE CDN WORKER (NOT LOCAL .mjs)
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
-
-const pdfjsLib = window.pdfjsLib;
-
-if (!pdfjsLib) {
-  throw new Error('PDF.js failed to load');
-}
-
+// ✅ CDN WORKER (REQUIRED)
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
