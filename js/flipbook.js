@@ -1,12 +1,12 @@
-// flipbook.js
 const pdfjsLib = window.pdfjsLib;
 
 if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
-// Worker path (relative to index.html)
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.worker.min.mjs';
+// ✅ USE CDN WORKER (NOT LOCAL .mjs)
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
 export async function loadFlipbook(folder) {
   console.log('Loading edition folder:', folder);
