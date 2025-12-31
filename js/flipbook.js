@@ -1,56 +1,57 @@
-// Use the global PDF.js object
-const pdfjsLib = window.pdfjsLib;
+window.onload = () => {
+  const pdfjsLib = window.pdfjsLib;
 
-if (!pdfjsLib) {
-  throw new Error('PDF.js failed to load');
-}
-
-// CDN worker
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
-
-document.getElementById('editionSelect').addEventListener('change', function() {
-  const edition = this.value;
-  if (edition) {
-    loadFlipbook(`editions/${edition}`);
-  } else {
-    document.getElementById('flipbookContainer').innerHTML = '';
+  if (!pdfjsLib) {
+    throw new Error('PDF.js failed to load');
   }
-});
 
-async function loadFlipbook(folder) {
-  console.log('Loading edition folder:', folder);
+  // CDN worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
-  const container = document.getElementById('flipbookContainer');
-  container.innerHTML = '';
+  document.getElementById('editionSelect').addEventListener('change', function() {
+    const edition = this.value;
+    if (edition) {
+      loadFlipbook(`editions/${edition}`);
+    } else {
+      document.getElementById('flipbookContainer').innerHTML = '';
+    }
+  });
 
-  let pageNumber = 1;
+  async function loadFlipbook(folder) {
+    console.log('Loading edition folder:', folder);
 
-  while (true) {
-    const padded = String(pageNumber).padStart(2, '0');
-    const filePath = `${folder}/${padded} Gulberg Flash.pdf`;
+    const container = document.getElementById('flipbookContainer');
+    container.innerHTML = '';
 
-    console.log('Trying:', filePath);
+    let pageNumber = 1;
 
-    try {
-      const pdf = await pdfjsLib.getDocument(filePath).promise;
-      const page = await pdf.getPage(1);
+    while (true) {
+      const padded = String(pageNumber).padStart(2, '0');
+      const filePath = `${folder}/${padded} Gulberg Flash.pdf`;
 
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const viewport = page.getViewport({ scale: 1.5 });
+      console.log('Trying:', filePath);
 
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+      try {
+        const pdf = await pdfjsLib.getDocument(filePath).promise;
+        const page = await pdf.getPage(1);
 
-      await page.render({ canvasContext: ctx, viewport }).promise;
-      container.appendChild(canvas);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.5 });
 
-      console.log('Rendered:', filePath);
-      pageNumber++;
-    } catch (err) {
-      console.log('No more pages at:', filePath);
-      break;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        container.appendChild(canvas);
+
+        console.log('Rendered:', filePath);
+        pageNumber++;
+      } catch (err) {
+        console.log('No more pages at:', filePath);
+        break;
+      }
     }
   }
-}
+};
