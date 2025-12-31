@@ -4,7 +4,6 @@ if (!pdfjsLib) {
   throw new Error('PDF.js failed to load');
 }
 
-// ✅ CDN WORKER (REQUIRED)
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 
@@ -38,7 +37,7 @@ export async function loadFlipbook(folder) {
 
       console.log('Rendered:', filePath);
       pageNumber++;
-    } catch (err) {
+    } catch {
       console.log('No more pages at:', filePath);
       break;
     }
